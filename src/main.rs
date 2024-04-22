@@ -1,74 +1,54 @@
-use bevy::prelude::*;
+//! Shows how to render simple primitive shapes with a single color.
+
+use bevy::{
+    prelude::*,
+    sprite::{MaterialMesh2dBundle, Mesh2dHandle},
+};
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(
-            ImagePlugin::default_nearest(),
-        ))
+        .add_plugins(DefaultPlugins)
         .add_systems(Startup, setup)
-        .add_systems(Update, sprite_movement)
         .run();
 }
 
-// Create a grid.
-// Create black and white squares and put on grid.
-// Click a square and it turns green
+const X_EXTENT: f32 = 600.;
 
-#[derive(Component)]
-enum Direction {
-    UP,
-    DOWN,
-    Left,
-    Right,
-}
-
-struct Tile {
-    x: i32,
-    y: i32,
-    sprite: String,
-}
-
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-
-    // let grid : Grid<Tile> = Grid::new(3,3);
-    // let tile = Tile(1,1,"bevy_pixel_light.png": String);
-
-    // grid[0] = tile;
-
-    commands.spawn(Camera2dBundle::default());
-    commands.spawn((
-        SpriteBundle {
-            texture: asset_server.load("bevy_pixel_light.png"),
-            transform: Transform::from_xyz(100., 0., 0.),
-            ..default()
-        },
-        Direction::Right,
-    ));
-}
-
-fn sprite_movement(
-    time: Res<Time>,
-    keyboard_input: Res<Input<KeyCode>>,
-    mut sprite_position: Query<(&mut Direction, &mut Transform)>
+fn setup(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    for (mut logo, mut transform) in &mut sprite_position {
-        match *logo {
-            Direction::UP => transform.translation.y += 30. * time.delta_seconds(),
-            Direction::DOWN => transform.translation.y -= 30. * time.delta_seconds(),
-            Direction::Right => transform.translation.x += 30. * time.delta_seconds(),
-            Direction::Left => transform.translation.x -= 30. * time.delta_seconds(),
-        }
-        if keyboard_input.pressed(KeyCode::W) {
-            *logo = Direction::UP;
-        }
-        if keyboard_input.pressed(KeyCode::S) {
-            *logo = Direction::DOWN;
-        }
-        if keyboard_input.pressed(KeyCode::A) {
-            *logo = Direction::Left;
-        }
-        if keyboard_input.pressed(KeyCode::D) {
-            *logo = Direction::Right;
-        }
+    commands.spawn(Camera2dBundle::default());
+
+    let shapes = [
+        Mesh2dHandle(meshes.add(Circle { radius: 50.0 })),
+        Mesh2dHandle(meshes.add(Ellipse::new(25.0, 50.0))),
+        Mesh2dHandle(meshes.add(Capsule2d::new(25.0, 50.0))),
+        Mesh2dHandle(meshes.add(Rectangle::new(50.0, 100.0))),
+        Mesh2dHandle(meshes.add(RegularPolygon::new(50.0, 6))),
+        Mesh2dHandle(meshes.add(Triangle2d::new(
+            Vec2::Y * 50.0,
+            Vec2::new(-50.0, -50.0),
+            Vec2::new(50.0, -50.0),
+        ))),
+    ];
+    let num_shapes = shapes.len();
+
+    for (i, shape) in shapes.into_iter().enumerate() {
+        // Distribute colors evenly across the rainbow.
+        let color = Color::hsl(360. * i as f32 / num_shapes as f32, 0.95, 0.7);
+
+        commands.spawn(MaterialMesh2dBundle {
+            mesh: shape,
+            material: materials.add(color),
+            transform: Transform::from_xyz(
+                // Distribute shapes from -X_EXTENT to +X_EXTENT.
+                -X_EXTENT / 2. + i as f32 / (num_shapes - 1) as f32 * X_EXTENT,
+                0.0,
+                0.0,
+            ),
+            ..default()
+        });
     }
 }
