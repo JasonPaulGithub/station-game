@@ -19,6 +19,10 @@ Tutorials Selected for Project:
 * app/plugin_group.rs - organize bevvy component types
 * app/return_after_run.rs - window control
 * app/thread_pool_resources.rs - thread control
+* asset/processing/asset_processing.rs - custom asset types
+* asset/asset_loading.rs - load assets
+* examples/audio - audio
+*
 
 List of Tutorials Reviewed:
 
@@ -42,6 +46,9 @@ List of Tutorials Reviewed:
 * app/custom_loop.rs
 * app/drag_and_drop.rs
 * app/return_after_run.rs
+* asset/asset_loading.rs
+* examples/audio
+* Up Next --> diagnostics/custom_diagnostic.rs
 
 Links
 https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
