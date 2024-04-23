@@ -1,15 +1,18 @@
 # Station Game
 I'm working on a little side-project written in Rust, that involves the Bevy game engine.
 
-Setup
-Bevvy Version 0.12.0
-
-Workflow: Bevvy Tutorials to be reviewed
+Setup - Bevvy Version 0.12.0
+Workflow - Bevvy Tutorials to be reviewed
 
 Tutorials Selected for Project:
 2d_viewport_to_world.rs - provides use of cursor position
 2d/move_sprite.rs - moves the sprite with keyboard
-2d/rotation.rs - rotation and useful code
+2d/rotation.rs - sprite rotation and useful code
+2d/sprite.rs - use of sprites
+2d/sprite_flipping.rs
+2d/sprite_sheet.rs - animation
+2d/text2d.rs - text display
+2d/transparency_2d.rs - transparency will be useful for lighting effects
 
 List of Tutorials Reviewed:
 2d/2d_gizmos.rs
@@ -23,6 +26,12 @@ List of Tutorials Reviewed:
 2d/move_sprite.rs
 2d/pixel_perfect.rs
 2d/rotation.rs
+2d/sprite.rs
+2d/sprite_flipping.rs
+2d/sprite_sheet.rs
+2d/text2d.rs
+2d/texture_atlas.rs
+2d/transparency_2d.rs
 
 Links
 https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
